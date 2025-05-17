@@ -1,0 +1,3 @@
+name: custom/javascript-queries
+version: 0.0.1
+libraryPathDependencies: codeql-javascript
