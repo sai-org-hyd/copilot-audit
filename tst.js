@@ -8,6 +8,8 @@ if (process.env.NODE_ENV === 'development') {
   console.log({ a: 5, b: 10 });     
 }
 
+
+const password= "Indri@2025"
 const result = calculateSum(5, 10);
 console.log("The result is:", result); 
 
