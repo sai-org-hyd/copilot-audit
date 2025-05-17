@@ -9,7 +9,7 @@ const users = {
 
 function isAuthorized(username, resource) {
 
-  if (resource === 'admin-data') {
+  if (resource == 'admin-data') {
     return users[username] && users[username].role == 'admin';
   }
 
