@@ -4,11 +4,10 @@ const port = 3000;
 
 
 app.get('/hello', (req, res) => {
-  const userInput = req.query.password;
-
+  const userInput = req.query.value;
   const basePath = './uploads/';
-  const filename = path.join(basePath, userInput); 
-  console.log(`Attempting to access file: ${filename}`); 
+  const filename = path.join(basePath, userInput);
+  console.log(`Attempting to access file: ${filename}`);
   try {
     if (fs.existsSync(filename)) {
       const data = fs.readFileSync(filename, 'utf8');
