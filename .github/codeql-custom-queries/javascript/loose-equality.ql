@@ -1,3 +1,9 @@
+
+
+
+
+import javascript
+
 /**
  * @name Detect loose equality (== or !=) in JavaScript code
  * @description Finds all uses of '==' or '!=' operators which might lead to subtle bugs.
@@ -7,9 +13,7 @@
  * @tags code-quality
  */
 
-import javascript
+from BinaryEqualityTest eq
+where eq.getOperator() = "==" or eq.getOperator() = "!="
+select eq, "Use strict equality '===' or '!==' instead of '" + eq.getOperator() + "' to avoid bugs."
 
-from BinaryOperation binOp
-where
-  (binOp.getOperator() = "==" or binOp.getOperator() = "!=")
-select binOp, "Use strict equality '===' or '!==' instead of '" + binOp.getOperator() + "' to avoid bugs."
