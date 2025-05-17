@@ -40,7 +40,7 @@ jobs:
       uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
-        queries: security-extended , security-and-quality ,./.github/codeql-custom-queries/javascript
+        queries: security-extended , security-and-quality ,./.github/codeql-custom-queries/javascript/loose-equality.ql
 
     - name: Autobuild
       uses: github/codeql-action/autobuild@v3
