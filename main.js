@@ -1,21 +1,29 @@
 const express = require('express');
-const fs = require('fs');
 const app = express();
 
-function delayAndRead(filename, res) {
- 
-  setTimeout(() => {
-    const finalPath = "/var/tmp/" + filename;
-    const data = fs.readFileSync(finalPath, 'utf8'); 
-    res.send(data);
-  }, 50);
+
+const users = {
+  alice: { role: 'admin' },
+  bob: { role: 'user' },
+};
+
+function isAuthorized(username, resource) {
+
+  if (resource === 'admin-data') {
+    return users[username] && users[username].role == 'admin';
+  }
+
+  return true;
 }
 
-app.get('/danger', (req, res) => {
-  const fileParam = req.query.doc; 
-  delayAndRead(fileParam, res);    
+app.get('/data', (req, res) => {
+  const { username, resource } = req.query;
+
+  if (isAuthorized(username, resource)) {
+    res.send(`Access granted to ${resource} for user ${username}`);
+  } else {
+    res.status(403).send('Forbidden');
+  }
 });
 
-app.listen(3000, () => {
-  console.log("Server up");
-})
+app.listen(3000);
