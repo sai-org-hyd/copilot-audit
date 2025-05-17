@@ -4,16 +4,22 @@ const port = 3000;
 
 
 app.get('/hello', (req, res) => {
-  // Intentionally DO NOT sanitize the password.  This is the vulnerability.
   const password = req.query.password;
-  //  const sanitizedPassword = password.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  res.send(password); // BAD: Vulnerable to XSS
-});
 
+  const filename = `./uploads/${password}`; 
+  try {
+    if (fs.existsSync(filename)) {
+      const data = fs.readFileSync(filename, 'utf8');
+       res.send(data);
+    }
+    else{
+        res.send("File not found");
+    }
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('Internal Server Error');
+  }
 
-app.get('/', (req, res) => {
-  
-  res.send("hello world"); 
 });
 
 app.listen(port, () => {
