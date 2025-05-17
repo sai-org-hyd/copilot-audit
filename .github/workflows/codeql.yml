@@ -43,7 +43,7 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         # Include the extended security queries for more in-depth analysis
-        queries: security-extended,security-and-quality
+        queries: security-extended,security-and-quality, ./codeql-custom-queries/javascript
 
     # Autobuild attempts to build your code if it's a compiled language.
     # For Node.js, it might not do much, but it's good to have.
@@ -55,11 +55,4 @@ jobs:
       with:
         category: "/language:${{matrix.language}}"
     
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
-      with:
-        languages: ${{ matrix.language }}
-        queries: |
-          security-extended
-          security-and-quality
-          ./codeql-custom-queries/javascript
+   
