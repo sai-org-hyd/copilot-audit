@@ -36,23 +36,14 @@ jobs:
       shell: bash
       run: npm install
 
-    # Step to install CodeQL CLI so we can build the custom query pack
-    - name: Setup CodeQL CLI (for custom query pack)
+    - name: Initialize CodeQL with custom queries
       uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
-        tools: latest
-
-    - name: Build custom CodeQL query pack
-      run: |
-        codeql pack install ./codeql-custom-queries/javascript
-
-    # Re-initialize CodeQL after installing custom pack
-    - name: Re-initialize CodeQL with custom queries
-      uses: github/codeql-action/init@v3
-      with:
-        languages: ${{ matrix.language }}
-        queries: security-extended,security-and-quality,./codeql-custom-queries/javascript
+        queries: |
+          security-extended
+          security-and-quality
+          ./codeql-custom-queries/javascript
 
     - name: Autobuild
       uses: github/codeql-action/autobuild@v3
