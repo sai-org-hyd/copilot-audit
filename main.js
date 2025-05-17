@@ -1,28 +1,21 @@
 const express = require('express');
 const fs = require('fs');
-const path = require('path');
 const app = express();
-const port = 3000;
 
+function delayAndRead(filename, res) {
+ 
+  setTimeout(() => {
+    const finalPath = "/var/tmp/" + filename;
+    const data = fs.readFileSync(finalPath, 'utf8'); 
+    res.send(data);
+  }, 50);
+}
 
-app.get('/hello', (req, res) => {
-  const userInput = req.query.value;
-  const basePath = './uploads/';
-  const filename = path.join(basePath, userInput);
-  console.log(`Attempting to access file: ${filename}`);
-  try {
-    if (fs.existsSync(filename)) {
-      const data = fs.readFileSync(filename, 'utf8');
-      res.send(data);
-    } else {
-      res.send("File not found");
-    }
-  } catch (e) {
-    console.error(e);
-    res.status(500).send('Internal Server Error');
-  }
+app.get('/danger', (req, res) => {
+  const fileParam = req.query.doc; 
+  delayAndRead(fileParam, res);    
 });
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
-});
+app.listen(3000, () => {
+  console.log("Server up");
+})
